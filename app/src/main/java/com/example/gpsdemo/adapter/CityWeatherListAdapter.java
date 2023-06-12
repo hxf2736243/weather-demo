@@ -23,6 +23,11 @@ public class CityWeatherListAdapter extends BaseAdapter {
         this.weathers = weathers;
     }
 
+    public void updateDataList(List<Weather> weathers){
+        this.weathers=weathers;
+        notifyDataSetChanged();
+    }
+
     @Override
     public int getCount() {
         return weathers.size();
@@ -46,6 +51,9 @@ public class CityWeatherListAdapter extends BaseAdapter {
             holder = new ViewHolder();
             holder.cityName = convertView.findViewById(R.id.cityName);
             holder.weatherIcon = convertView.findViewById(R.id.weatherIcon);
+            holder.tempLowest=convertView.findViewById(R.id.tempLowest);
+            holder.tempHighest=convertView.findViewById(R.id.tempHighest);
+            holder.wind=convertView.findViewById(R.id.wind);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
@@ -54,12 +62,18 @@ public class CityWeatherListAdapter extends BaseAdapter {
         Weather weather = weathers.get(position);
         holder.cityName.setText(weather.getCity());
         holder.weatherIcon.setImageResource(Utils.getWeatherIcon(weather.getWeather()));
+        holder.tempHighest.setText(weather.getTempMax());
+        holder.tempLowest.setText(weather.getTempMin());
+        holder.wind.setText(weather.getWindDirect()+"风"+weather.getWind());
 
         return convertView;
     }
 
     private class ViewHolder {
         TextView cityName;
+        TextView tempHighest;
+        TextView tempLowest;
+        TextView wind;
         ImageView weatherIcon;
     }
 }

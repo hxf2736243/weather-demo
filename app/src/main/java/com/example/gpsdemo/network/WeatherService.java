@@ -21,6 +21,36 @@ public class WeatherService {
 
     private static final String WEATHER_URL = "https://restapi.amap.com/v3/weather/weatherInfo?city={cityId}&key=9415e97066d0ef87372c84d112b22bde";
 
+    public Weather getWeather(String cityId) {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder().url(WEATHER_URL.replace("{cityId}",cityId)).build();
+        // JSON 解析
+        try {
+            Response response = client.newCall(request).execute();
+            String body = response.body().string();
+            JSONObject jsonObj = new JSONObject(body);
+            JSONArray args = jsonObj.getJSONArray("lives");
+            JSONObject first=args.getJSONObject(0);
+            String city = first.getString("city");
+            String adcode = first.getString("adcode");
+            String weather = first.getString("weather");
+            String temperature = first.getString("temperature");
+            String windpower = first.getString("windpower");
+            String winddirection = first.getString("winddirection");
+            Weather weather1=new Weather();
+            weather1.setWeather(weather);
+            weather1.setCity(city);
+            weather1.setTempLive(temperature);
+            weather1.setWind(windpower);
+            weather1.setWindDirect(winddirection);
+            weather1.setTempMax(temperature);
+            return weather1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+
+    }
     public void getWeather(String cityId, final WeatherCallback callback) {
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder().url(WEATHER_URL.replace("{cityId}",cityId)).build();

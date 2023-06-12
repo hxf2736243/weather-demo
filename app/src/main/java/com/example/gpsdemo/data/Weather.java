@@ -1,7 +1,20 @@
 package com.example.gpsdemo.data;
 
 
-public class Weather {
+import java.io.Serializable;
+
+public class Weather  implements Serializable {
+
+    public Weather(String city, String weather, String tempMax, String tempMin) {
+        this.city = city;
+        this.weather = weather;
+        this.tempMax = tempMax;
+        this.tempMin = tempMin;
+    }
+
+    public Weather() {
+    }
+
     private String city;
     private String cityId;
     private String date;
